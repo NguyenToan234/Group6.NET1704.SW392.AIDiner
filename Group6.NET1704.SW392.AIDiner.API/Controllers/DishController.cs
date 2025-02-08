@@ -1,5 +1,4 @@
 ﻿using Group6.NET1704.SW392.AIDiner.Common.DTO;
-using Group6.NET1704.SW392.AIDiner.DAL.Models;
 using Group6.NET1704.SW392.AIDiner.Services.Contract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +15,10 @@ namespace Group6.NET1704.SW392.AIDiner.API.Controllers
         {
             _dishService = dishService;
         }
-        [HttpGet("/dishes")]
+        [HttpGet]
         public async Task<ResponseDTO> GetAllDishes() 
         { 
         return await _dishService.GetAllDishes();
-        }
-        [HttpGet("/dishes/{id}")]
-        public async Task<ResponseDTO> GetDishById(int id)
-        {
-            return await _dishService.GetDishByIdAsync(id);
         }
     }
 }

@@ -10,6 +10,5 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Contract
     public interface IDishService
     {
         public  Task<ResponseDTO> GetAllDishes();
-        public Task<ResponseDTO> GetDishByIdAsync(int dishId);
     }
 }

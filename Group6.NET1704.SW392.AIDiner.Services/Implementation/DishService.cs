@@ -50,39 +50,5 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             }
             return dto;
         }
-
-        public async Task<ResponseDTO> GetDishByIdAsync(int dishId)
-        {
-            ResponseDTO dto = new ResponseDTO();
-            try
-            {
-                var dish = await _dishRepository.GetById(dishId);
-                if (dish == null)
-                {
-                    dto.IsSucess = false;
-                    dto.BusinessCode = BusinessCode.NOT_FOUND;
-                    return dto;
-                }
-                dto.Data = new DishDTO
-                {
-                    Id = dish.Id,
-                    Name = dish.Name,
-                    Description = dish.Description,
-                    CategoryId = dish.CategoryId,
-                    Price = dish.Price,
-                    Image = dish.Image,
-                    Status = dish.Status,
-                };
-                dto.IsSucess = true;
-
-
-            }
-            catch (Exception ex) 
-            { 
-                dto.IsSucess= false;
-                dto.BusinessCode = BusinessCode.EXCEPTION;
-            }
-            return dto;
-        }
     }
 }
