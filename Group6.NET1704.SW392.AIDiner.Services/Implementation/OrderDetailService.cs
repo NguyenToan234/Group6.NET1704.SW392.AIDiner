@@ -69,18 +69,10 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
                 // Gộp thông tin Order và danh sách OrderDetail vào response
                 dto.Data = new
                 {
-                    Order = new
-                    {
-                        order.Id,
-                        order.TableId,
-                        order.TotalAmount,
-                        order.PaymentStatus,
-                        order.CreatedAt,
-                        order.Status,
+                   
                         OrderDetails = orderDetails.Items.Select(orderdetail => new
                         {
                             orderdetail.Id,
-                            orderdetail.DishId,
                             Name = orderdetail.Dish.Name, // Lấy tên món ăn từ Dish
                             Image = orderdetail.Dish.Image, // Lấy ảnh món ăn từ Dish
                             orderdetail.Quantity,
@@ -88,7 +80,7 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
                             orderdetail.Status,
                             orderdetail.Note,
                         }).ToList()
-                    }
+                    
                 };
 
                 dto.IsSucess = true;
