@@ -13,5 +13,6 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Contract
         Task<ResponseDTO> GetAllRequest();
         public Task<ResponseDTO> GetRequestByOrderID(int orderID);
         public Task<ResponseDTO> CreateRequest(CreateRequestDTO requestDto);
+        public Task<ResponseDTO> GetRequests(int? restaurantId);
     }
 }

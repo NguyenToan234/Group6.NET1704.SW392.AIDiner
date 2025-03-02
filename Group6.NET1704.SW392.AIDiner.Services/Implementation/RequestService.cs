@@ -31,7 +31,7 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
 
         public async Task<ResponseDTO> GetAllRequest()
         {
-           ResponseDTO response = new ResponseDTO();
+            ResponseDTO response = new ResponseDTO();
             try
             {
                 var requests = await _requestRepository.GetQueryable().Include(r => r.Type)
@@ -73,7 +73,7 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
                     return response;
                 }
                 var allowedStatuses = new[] { "pending", "inProgress", "completed", "cancelled" };
-                if(!Array.Exists(allowedStatuses, s => s.Equals(status, StringComparison.OrdinalIgnoreCase)))
+                if (!Array.Exists(allowedStatuses, s => s.Equals(status, StringComparison.OrdinalIgnoreCase)))
                 {
                     response.IsSucess = false;
                     response.BusinessCode = BusinessCode.INVALID_INPUT;
@@ -82,10 +82,10 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
                 }
                 request.Status = status;
                 request.ProcessedAt = DateTime.UtcNow;
-                
+
                 await _requestRepository.Update(request);
                 await _unitOfWork.SaveChangeAsync();
-                
+
                 response.IsSucess = true;
                 response.BusinessCode = BusinessCode.UPDATE_SUCESSFULLY;
                 response.Data = new
@@ -107,7 +107,7 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             }
             return response;
         }
-       
+
 
         public async Task<ResponseDTO> GetRequestByOrderID(int orderID)
         {
@@ -215,5 +215,45 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             }
             return dto;
         }
+
+        public async Task<ResponseDTO> GetRequests(int? restaurantId)
+        {
+            ResponseDTO dto = new ResponseDTO();
+            try
+            {
+                var requests = await _requestRepository.GetAllDataByExpression(
+                    filter: r => restaurantId == null || r.Order.Table.RestaurantId == restaurantId, 0, 0,
+                    includes: new Expression<Func<Request, object>>[]
+                    {
+                        r => r.Order,
+                        r => r.Order.Table, 
+                        r => r.Type
+                    });
+
+                dto.IsSucess = true;
+                dto.BusinessCode = BusinessCode.GET_DATA_SUCCESSFULLY;
+                dto.message = "Requests retrieved successfully";
+                dto.Data = requests.Items.Select(r => new GetRequestByRestaurantIdDTO
+                {
+                    Id = r.Id,
+                    OrderId = r.OrderId,
+                    TypeId = r.TypeId,
+                    TypeName = r.Type.Name,
+                    Note = r.Note,
+                    CreatedAt = r.CreatedAt ?? DateTime.MinValue,
+                    ProcessedAt = r.ProcessedAt,
+                    Status = r.Status,
+                    TableName = r.Order?.Table?.Name ?? "Unknown"
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                dto.IsSucess = false;
+                dto.BusinessCode = BusinessCode.EXCEPTION;
+                dto.message = "An error occurred while retrieving requests: " + ex.Message;
+            }
+            return dto;
+        }
     }
 }
+

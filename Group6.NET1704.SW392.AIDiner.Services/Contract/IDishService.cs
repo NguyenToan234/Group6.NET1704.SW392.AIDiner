@@ -19,5 +19,6 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Contract
         public Task<ResponseDTO> CreateDish(CreateDishDTO createDishDTO);
         public Task<ResponseDTO> UpdateDish(int dishId ,UpdateDishDTO updateDishDTO);
         public Task<ResponseDTO> DeleteDishForAdmin(int id);
+        public Task<ResponseDTO> GetDishesByRestaurantId(int restaurantId);
     }
 }

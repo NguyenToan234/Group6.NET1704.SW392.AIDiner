@@ -179,6 +179,38 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             return dto;
         }
 
+        public async Task<ResponseDTO> GetDishesByRestaurantId(int restaurantId)
+        {
+            ResponseDTO dto = new ResponseDTO();
+            try
+            {
+                var dishes = await _dishRepository.GetAllDataByExpression(
+                    filter: d => d.RestaurantId == restaurantId && d.Status == "onsale", 0, 0);
+
+                dto.IsSucess = true;
+                dto.BusinessCode = BusinessCode.GET_DATA_SUCCESSFULLY;
+                dto.message = "Dishes retrieved successfully";
+                dto.Data = dishes.Items.Select(d => new GetDishByRestaurantId
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Description = d.Description,
+                    CategoryId = d.CategoryId,
+                    Price = d.Price,
+                    Image = d.Image,
+                    SoldCount = d.SoldCount
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                dto.IsSucess = false;
+                dto.BusinessCode = BusinessCode.EXCEPTION;
+                dto.message = "An error occurred while retrieving dishes: " + ex.Message;
+            }
+            return dto;
+        }
+    
+
         public async Task<ResponseDTO> GetDishesForAdmin(int? categoryId, int page, int size, string? search, string? sortBy, string? sortOrder)
         {
             ResponseDTO dto = new ResponseDTO();

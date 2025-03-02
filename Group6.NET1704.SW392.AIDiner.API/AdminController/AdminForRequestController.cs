@@ -21,6 +21,10 @@ namespace Group6.NET1704.SW392.AIDiner.API.AdminController
             return await _requestService.GetRequestByOrderID(orderID);
         }
 
-      
+        [HttpGet("requests")]
+        public async Task<ResponseDTO> GetRequests(int? restaurantId)
+        {
+            return await _requestService.GetRequests(restaurantId);
+        }
     }
 }
