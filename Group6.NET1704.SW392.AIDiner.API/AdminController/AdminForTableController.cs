@@ -44,5 +44,11 @@ namespace Group6.NET1704.SW392.AIDiner.API.AdminController
         {
             return await _service.UpdateTableForAdmin(id, updateRequest);
         }
+
+        [HttpDelete("tables/{id}")]
+        public async Task<ResponseIsSucessDTO> DeleteTableForAdmin(int id)
+        {
+            return await (_service.DeleteTableForAdmin(id));
+        }  
     }
 }

@@ -12,5 +12,6 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Contract
         public Task<ResponseDTO> GetAllIngredients();
         public Task<ResponseDTO> CreateIngredient(CreateUpdateIngredientDTO createUpdateIngredientDTO);
         public Task<ResponseDTO> UpdateIngredient(int id, CreateUpdateIngredientDTO createUpdateIngredientDTO);
+        public Task<ResponseDTO> DeleteIngredientForAdmin(int id);
     }
 }

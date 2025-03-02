@@ -251,6 +251,32 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             }
         }
 
+        public async Task<ResponseIsSucessDTO> DeleteUserForAdmin(int id)
+        {
+            ResponseIsSucessDTO dto = new ResponseIsSucessDTO();
+            try
+            {
+                var user = await _userRepository.GetById(id);
+                if (user == null)
+                {
+                    dto.IsSucess = false;
 
+                    return dto;
+                }
+                user.IsDeleted = true;
+                await _userRepository.Update(user);
+                await _unitOfWork.SaveChangeAsync();
+                dto.IsSucess = true;
+
+            }
+            catch (Exception ex)
+            {
+                dto.IsSucess = false;
+
+            }
+
+
+            return dto;
+        }
     }
 }

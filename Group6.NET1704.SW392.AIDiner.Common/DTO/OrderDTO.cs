@@ -17,6 +17,7 @@ namespace Group6.NET1704.SW392.AIDiner.Common.DTO
 
         public string? TableName { get; set; }
 
+        public List<Order_OrderDetailDTO> Dishes { get; set; } = new List<Order_OrderDetailDTO>();
 
     }
 }

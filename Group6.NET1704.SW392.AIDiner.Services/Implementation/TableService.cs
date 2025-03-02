@@ -209,6 +209,34 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             }
             return dto;
         }
+
+        public async Task<ResponseIsSucessDTO> DeleteTableForAdmin(int id)
+        {
+            ResponseIsSucessDTO dto = new ResponseIsSucessDTO();
+            try
+            {
+                var table = await _tableRepository.GetById(id);
+                if (table == null)
+                {
+                    dto.IsSucess = false;
+
+                    return dto;
+                }
+                table.IsDeleted = true;
+                await _tableRepository.Update(table);
+                await _unitOfWork.SaveChangeAsync();
+                dto.IsSucess = true;
+
+            }
+            catch (Exception ex)
+            {
+                dto.IsSucess = false;
+
+            }
+
+
+            return dto;
+        }
     }
     }
 

@@ -48,6 +48,36 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             return dto;
         }
 
+        public async Task<ResponseDTO> DeleteIngredientForAdmin(int id)
+        {
+            ResponseDTO dto = new ResponseDTO();
+            try
+            {
+                var ingredient = await _ingredientRepository.GetById(id);
+                if (ingredient == null)
+                {
+                    dto.IsSucess = false;
+                    dto.BusinessCode = BusinessCode.NOT_FOUND;
+                    dto.Data = "Không tìm thấy nguyên liệu.";
+                    return dto;
+                }
+                ingredient.IsDeleted = true;
+                await _ingredientRepository.Update(ingredient);
+                await _unitOfWork.SaveChangeAsync(); 
+
+                dto.IsSucess = true;
+                dto.BusinessCode= BusinessCode.DELETE_SUCCESS;
+                dto.Data = new {ingredient.Id,ingredient.IsDeleted, };
+                }
+            catch (Exception ex)
+            {
+                dto.IsSucess = false;
+                dto.BusinessCode = BusinessCode.EXCEPTION;
+                dto.Data = ex.Message;
+            }
+            return dto;
+        }
+
         public async Task<ResponseDTO> GetAllIngredients()
         {
             ResponseDTO dto = new ResponseDTO();

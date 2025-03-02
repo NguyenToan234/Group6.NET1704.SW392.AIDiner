@@ -21,10 +21,12 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
         private IGenericRepository<Order> _orderRepository;
         private IGenericRepository<RequestType> _requestTypeRepository;
 
-        public RequestService(IGenericRepository<Request> requestRepository, IUnitOfWork unitOfWork)
+        public RequestService(IUnitOfWork unitOfWork, IGenericRepository<Request> requestRepository, IGenericRepository<Order> orderRepository, IGenericRepository<RequestType> requestTypeRepository)
         {
-            _requestRepository = requestRepository;
             _unitOfWork = unitOfWork;
+            _requestRepository = requestRepository;
+            _orderRepository = orderRepository;
+            _requestTypeRepository = requestTypeRepository;
         }
 
         public async Task<ResponseDTO> GetAllRequest()
@@ -105,13 +107,7 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             }
             return response;
         }
-        public RequestService(IGenericRepository<Request> requestRepository, IGenericRepository<Order> orderRepository, IGenericRepository<RequestType> requestTypeRepository, IUnitOfWork unitOfWork)
-        {
-            _requestRepository = requestRepository;
-            _orderRepository = orderRepository;
-            _requestTypeRepository = requestTypeRepository;
-            _unitOfWork = unitOfWork;
-        }
+       
 
         public async Task<ResponseDTO> GetRequestByOrderID(int orderID)
         {

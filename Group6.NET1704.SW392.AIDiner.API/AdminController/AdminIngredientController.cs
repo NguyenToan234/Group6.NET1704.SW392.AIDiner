@@ -30,6 +30,10 @@ namespace Group6.NET1704.SW392.AIDiner.API.AdminController
         {
             return await _ingredientService.UpdateIngredient(id, createUpdateIngredientDTO);
         }
-
+        [HttpDelete("{id}")]
+        public async Task<ResponseDTO> DeleteIngredientForAdmin(int id)
+        {
+            return await _ingredientService.DeleteIngredientForAdmin(id);
+        }
     }
 }

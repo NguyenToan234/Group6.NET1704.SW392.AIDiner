@@ -17,7 +17,7 @@ namespace Group6.NET1704.SW392.AIDiner.API.UserControllers
             _geminiService = service;
         }
 
-        [HttpPost("ProcessMessage")]
+        [HttpPost("message")]
         public async Task<IActionResult> ProcessMessage([FromBody] GeminiRequest request)
         {
             if (string.IsNullOrEmpty(request?.Message))
@@ -46,7 +46,7 @@ namespace Group6.NET1704.SW392.AIDiner.API.UserControllers
                     {
                         quantity = 1; // Mặc định là 1 nếu không có số lượng
                     }
-                    return Ok(new { Message = geminiResponse.ResponseText }); // Sử dụng ResponseText (hoặc thuộc tính phù hợp)
+                    return Ok(new { Message = geminiResponse.ResponseText + $"đã đặt món {geminiResponse.FoodId} - {quantity} " }); // Sử dụng ResponseText (hoặc thuộc tính phù hợp)
 
                     break;
 

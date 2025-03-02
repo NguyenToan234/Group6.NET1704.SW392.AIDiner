@@ -37,6 +37,11 @@ namespace Group6.NET1704.SW392.AIDiner.API.AdminController
         {
             return await _dishService.UpdateDish(id, updateDishDTO);
         }
+        [HttpDelete("{id}")]
+        public async Task<ResponseDTO> DeleteDishForAdmin(int id)
+        {
+            return await _dishService.DeleteDishForAdmin(id);
+        }
 
     }
 }

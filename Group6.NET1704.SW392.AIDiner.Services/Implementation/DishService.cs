@@ -82,6 +82,35 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Implementation
             return dto;
         }
 
+        public async Task<ResponseDTO> DeleteDishForAdmin(int id)
+        {
+            ResponseDTO dto = new ResponseDTO();
+            try
+            {
+                var dish = await _dishRepository.GetById(id);
+                if (dish == null)
+                {
+                    dto.IsSucess= false;
+                    dto.BusinessCode= BusinessCode.NOT_FOUND;
+                    dto.Data = "Không tìm thấy món ăn.";
+                    return dto;
+                }
+                dish.Status = "deleted";
+                await _dishRepository.Update(dish);
+                await _unitOfWork.SaveChangeAsync();
+                dto.IsSucess = true ;
+                dto.BusinessCode = BusinessCode.DELETE_SUCCESS;
+                dto.Data = new { dish.Id, dish.Status };
+            }
+            catch (Exception ex)
+            {
+                dto.IsSucess = false;
+                dto.BusinessCode = BusinessCode.EXCEPTION;
+                dto.Data = ex.Message;
+            }
+            return dto;
+        }
+
         public async Task<ResponseDTO> GetAllDishes()
         {
             ResponseDTO dto = new ResponseDTO();

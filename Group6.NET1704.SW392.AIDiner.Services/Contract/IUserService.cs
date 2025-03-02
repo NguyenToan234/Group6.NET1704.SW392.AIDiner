@@ -15,5 +15,6 @@ namespace Group6.NET1704.SW392.AIDiner.Services.Contract
         public Task<ResponseDTO> GetUserById(int id);
         public Task<ResponseDTO> UpdateUserForAdmin(UpdateUserModel userDTO);
         public Task<ResponseDTO> UpdateProfileUser(int id, UpdateProfileUserModel userDTO);
+        public Task<ResponseIsSucessDTO> DeleteUserForAdmin(int id);
     }
 }
